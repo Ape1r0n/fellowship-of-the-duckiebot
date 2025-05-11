@@ -1,9 +1,9 @@
 # parameters
-ARG REPO_NAME="<REPO_NAME_HERE>"
-ARG DESCRIPTION="<DESCRIPTION_HERE>"
-ARG MAINTAINER="<YOUR_FULL_NAME> (<YOUR_EMAIL_ADDRESS>)"
+ARG REPO_NAME="fellowship-of-the-duckiebot"
+ARG DESCRIPTION="This is the final project of \"Software Engineering Practical Course\" at Kutaisi International University, under the group name \"Fellowship of the 🦆\", under the supervision of Professor Walter F. Tichy and teaching assistant Mikheil Tenieshvili."
+ARG MAINTAINER="Lado Turmanidze (turmanidze.lado@kiu.edu.ge)"
 # pick an icon from: https://fontawesome.com/v4.7.0/icons/
-ARG ICON="cube"
+ARG ICON="rebel"
 
 # ==================================================>
 # ==> Do not change the code below this line
