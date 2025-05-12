@@ -1,0 +1,130 @@
+\documentclass{article}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{amsmath}
+\usepackage{enumitem}
+
+\begin{document}
+	
+	\section*{Legend (Glossary of Symbols)}
+	
+	\begin{description}[style=nextline, leftmargin=2.5cm, labelwidth=2cm]
+		\item[$g(s)$] The current cost estimate from state $s$ to the goal.
+		\item[$rhs(s)$] The one-step lookahead cost estimate of $g(s)$.
+		\item[$h(s_1, s_2)$] Heuristic estimate from $s_1$ to $s_2$ (e.g., Euclidean or Manhattan distance).
+		\item[$km$] A cumulative modifier for the heuristic to account for movement; used to detect changes.
+		\item[$s_{start}$] The agent’s current position (start of the current planning segment).
+		\item[$s_{goal}$] The target (goal) position.
+		\item[$U$] A priority queue storing states to process, ordered by keys.
+		\item[$c(u, v)$] The cost of moving from node $u$ to node $v$.
+		\item[$Succ(u)$] Set of successor states of $u$ (i.e., nodes reachable from $u$).
+		\item[$Pred(u)$] Set of predecessor states of $u$ (i.e., nodes that can reach $u$).
+		\item[$s$] A generic state (node) in the graph or grid.
+	\end{description}
+	
+	\clearpage
+	
+	% Procedure: CalculateKey
+	\begin{algorithm}
+		\caption{D* Lite: \textsc{CalculateKey}}
+		\begin{algorithmic}[1]
+			\Procedure{CalculateKey}{$s$}
+			\State \textbf{return} $\left[\min(g(s), rhs(s)) + h(s_{start}, s) + km, \min(g(s), rhs(s)) \right]$
+			\EndProcedure
+		\end{algorithmic}
+	\end{algorithm}
+	
+	% Procedure: Initialize
+	\begin{algorithm}
+		\caption{D* Lite: \textsc{Initialize}}
+		\begin{algorithmic}[1]
+			\Procedure{Initialize}{}
+			\State $U \gets \emptyset$ \Comment{Priority queue}
+			\State $km \gets 0$
+			\ForAll{$s \in S$}
+			\State $rhs(s) \gets \infty$
+			\State $g(s) \gets \infty$
+			\EndFor
+			\State $rhs(s_{goal}) \gets 0$
+			\State Insert $s_{goal}$ into $U$ with key $\textsc{CalculateKey}(s_{goal})$
+			\EndProcedure
+		\end{algorithmic}
+	\end{algorithm}
+	
+	% Procedure: UpdateVertex
+	\begin{algorithm}
+		\caption{D* Lite: \textsc{UpdateVertex}}
+		\begin{algorithmic}[1]
+			\Procedure{UpdateVertex}{$u$}
+			\If{$u \neq s_{goal}$}
+			\State $rhs(u) \gets \min_{s' \in Succ(u)} \left( c(u, s') + g(s') \right)$
+			\EndIf
+			\If{$u \in U$}
+			\State Remove $u$ from $U$
+			\EndIf
+			\If{$g(u) \neq rhs(u)$}
+			\State Insert $u$ into $U$ with key $\textsc{CalculateKey}(u)$
+			\EndIf
+			\EndProcedure
+		\end{algorithmic}
+	\end{algorithm}
+	
+	% Procedure: ComputeShortestPath
+	\begin{algorithm}
+		\caption{D* Lite: \textsc{ComputeShortestPath}}
+		\begin{algorithmic}[1]
+			\Procedure{ComputeShortestPath}{}
+			\While{$U.\text{TopKey}() < \textsc{CalculateKey}(s_{start})$ \textbf{or} $rhs(s_{start}) \neq g(s_{start})$}
+			\State $u \gets U.\text{Top}()$
+			\State $k_{old} \gets U.\text{TopKey}()$
+			\State Remove $u$ from $U$
+			\State $k_{new} \gets \textsc{CalculateKey}(u)$
+			\If{$k_{old} < k_{new}$}
+			\State Insert $u$ into $U$ with key $k_{new}$
+			\ElsIf{$g(u) > rhs(u)$}
+			\State $g(u) \gets rhs(u)$
+			\ForAll{$p \in Pred(u)$}
+			\State \textsc{UpdateVertex}$(p)$
+			\EndFor
+			\Else
+			\State $g_{old} \gets g(u)$
+			\State $g(u) \gets \infty$
+			\ForAll{$p \in Pred(u) \cup \{u\}$}
+			\State \textsc{UpdateVertex}$(p)$
+			\EndFor
+			\EndIf
+			\EndWhile
+			\EndProcedure
+		\end{algorithmic}
+	\end{algorithm}
+	
+	% Procedure: MainLoop
+	\begin{algorithm}
+		\caption{D* Lite: \textsc{MainLoop}}
+		\begin{algorithmic}[1]
+			\Procedure{MainLoop}{}
+			\State $s_{last} \gets s_{start}$
+			\State \textsc{Initialize}()
+			\State \textsc{ComputeShortestPath}()
+			\While{$s_{start} \neq s_{goal}$}
+			\If{$g(s_{start}) = \infty$}
+			\State \textbf{return} No path exists
+			\EndIf
+			\State $s_{start} \gets \arg\min_{s' \in Succ(s_{start})} \left( c(s_{start}, s') + g(s') \right)$
+			\State Move to $s_{start}$
+			\State Scan for changed edge costs
+			\If{any edge costs changed}
+			\State $km \gets km + h(s_{last}, s_{start})$
+			\State $s_{last} \gets s_{start}$
+			\ForAll{changed edges $(u,v)$}
+			\State Update cost $c(u,v)$
+			\State \textsc{UpdateVertex}$(u)$
+			\EndFor
+			\State \textsc{ComputeShortestPath}()
+			\EndIf
+			\EndWhile
+			\EndProcedure
+		\end{algorithmic}
+	\end{algorithm}
+	
+\end{document}
