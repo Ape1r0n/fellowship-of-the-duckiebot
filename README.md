@@ -1,6 +1,6 @@
 # Duckietown Path Planning 🦆
 
-[![Python](https://img.shields.io/badge/python-11.8%2B-blue.svg)](https://www.python.org/downloads/)
+[![Python](https://img.shields.io/badge/python-3.11%2B-yellow.svg)](https://www.python.org/downloads/)
 [![ROS](https://img.shields.io/badge/ROS-Noetic-brightgreen.svg)](https://www.ros.org/)
 [![Docker](https://img.shields.io/badge/Docker-28.1%2B-blue.svg)](https://www.docker.com/)
 [![NumPy](https://img.shields.io/badge/NumPy-1.24.4-blue.svg)](https://numpy.org/)
