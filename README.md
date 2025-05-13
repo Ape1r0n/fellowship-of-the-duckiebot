@@ -1,15 +1,15 @@
 # Duckietown Path Planning 🦆
 
-[![Python](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://www.python.org/downloads/)
+[![Python](https://img.shields.io/badge/python-11.8%2B-blue.svg)](https://www.python.org/downloads/)
 [![ROS](https://img.shields.io/badge/ROS-Noetic-brightgreen.svg)](https://www.ros.org/)
-[![Docker](https://img.shields.io/badge/Docker-20.10%2B-blue.svg)](https://www.docker.com/)
-[![NumPy](https://img.shields.io/badge/NumPy-1.23.5-blue.svg)](https://numpy.org/)
+[![Docker](https://img.shields.io/badge/Docker-28.1%2B-blue.svg)](https://www.docker.com/)
+[![NumPy](https://img.shields.io/badge/NumPy-1.24.4-blue.svg)](https://numpy.org/)
 [![YOLOv5](https://img.shields.io/badge/YOLOv5-6.2-yellow.svg)](https://github.com/ultralytics/yolov5)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Fellowship of the 🦆
-**ETH Zurich Self-Driving Cars with Duckietown Course**  
-*Final Project - Software Engineering Practical Course*  
+**ETH Zurich Self-Driving Cars with Duckietown Course**
+*Final Project - Software Engineering Practical Course*
 *Kutaisi International University*
 
 **Supervised by:**
@@ -85,7 +85,7 @@ ComputeShortestPath():
             For all predecessors p of u:
                 UpdateVertex(p)  # Update affected states
         else:               # If u is underconsistent
-            g(u) �� ∞        # Make it overconsistent
+            g(u) ← ∞        # Make it overconsistent
             UpdateVertex(u) and all predecessors
 ```
 *The main algorithm that processes states from the priority queue until the start state becomes consistent or the queue is empty. It resolves inconsistencies and propagates changes through the graph.*
@@ -140,7 +140,7 @@ Our implementation uses a graph-based representation of the Duckietown map, wher
 
 ```bash
 # Clone the repository
-git clone https://github.com/Ape1r0n/fellowship-of-the-duckiebot.git 
+git clone https://github.com/Ape1r0n/fellowship-of-the-duckiebot.git
 cd fellowship-of-the-duckiebot
 python3 Dlite.py
 ```
@@ -151,8 +151,8 @@ python3 Dlite.py
 from Dlite import create_graph, DStarLite
 
 # Create graph from Duckietown map
-## provided text file should include weighted directed graph in the following format:
-## C(vi, vj) = k where vi and vj are nodes, k is cost between the edge vi -> vj
+# provided text file should include weighted directed graph in the following format:
+# C(vi, vj) = k where vi and vj are nodes, k is cost between the edge vi -> vj
 graph = create_graph("map.txt")
 
 # Initialize D* Lite with start and goal positions
@@ -161,3 +161,7 @@ path_planner = DStarLite(start_node, goal_node, graph)
 # Get the optimal path
 path = path_planner.get_path()
 ```
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
