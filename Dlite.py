@@ -289,6 +289,27 @@ class DStarLite:
         """
         return self.main_loop()
 
+    def get_instruction_sequence(self) -> list:
+        nodes = self.get_path()
+
+        dirs = dict()
+
+        with open("dirs.txt", "r") as f:
+            for l in f.readlines():
+                x = l.strip().split(" ")
+                dirs[(int(x[0]), int(x[1]))] = x[2]
+
+        instructions = []
+
+        for v in zip(nodes[:-1], nodes[1:]):
+            x = (int(v[0][1:]), int(v[1][1:]))
+            instructions.append("F")
+            instructions.append(dirs[x])
+
+        instructions.append("F")
+
+        return instructions
+
 
 if __name__ == "__main__":
     graph = create_graph("map.txt")
@@ -300,6 +321,7 @@ if __name__ == "__main__":
         d_star = DStarLite(source, sink, graph)
         d_star.compute_shortest_path()
         print(f"Path from {source} to {sink}: {d_star.get_path()}")
+        print(f"Instruction sequence from {source} to {sink}: {d_star.get_instruction_sequence()}")
 
     sample_path("v1", "v10")
     sample_path("v2", "v8")
