@@ -2,3 +2,4 @@
 # NOTE: only place non-Duckietown libraries here; pin versions only if necessary
 numpy==1.24.4
 pygame
+duckietown
