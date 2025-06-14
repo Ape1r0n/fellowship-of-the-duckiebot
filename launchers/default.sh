@@ -16,7 +16,10 @@ dt-launchfile-init
 # dt-exec echo "This is an empty launch script. Update it to launch your application."
 # dt-exec rosrun -m "my_package.camera_node"
 # dt-exec rosrun -m "my_package.wheel_control_node"
-dt-exec python3 -m "my_package.lane_follower"
+# dt-exec python3 -m "my_package.lane_follower"
+dt-exec rosrun Main camera_node.py
+dt-exec rosrun Main wheel_control_node.py
+dt-exec rosrun Main encoder_node.py
 
 # ----------------------------------------------------------------------------
 # YOUR CODE ABOVE THIS LINE
